@@ -93,25 +93,16 @@ func SimPearson(data map[int]*Person, person1, person2 *Person) float64 {
 	}
 
 	sum1 := 0.0
+	sum2 := 0.0
+	sum1Sq := 0.0
+	sum2Sq := 0.0
+	pSum := 0.0
+
 	for movie := range similiatiry {
 		sum1 += data[person1.ID].GetMovies()[movie]
-	}
-	sum2 := 0.0
-	for movie := range similiatiry {
 		sum2 += data[person2.ID].GetMovies()[movie]
-	}
-
-	sum1Sq := 0.0
-	for movie := range similiatiry {
 		sum1Sq += math.Pow(data[person1.ID].GetMovies()[movie], 2)
-	}
-	sum2Sq := 0.0
-	for movie := range similiatiry {
 		sum2Sq += math.Pow(data[person2.ID].GetMovies()[movie], 2)
-	}
-
-	pSum := 0.0
-	for movie := range similiatiry {
 		pSum += data[person2.ID].GetMovies()[movie] * data[person1.ID].GetMovies()[movie]
 	}
 
