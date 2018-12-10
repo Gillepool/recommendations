@@ -114,15 +114,6 @@ func SimPearson(data map[int]*Person, person1, person2 *Person) float64 {
 
 	r := num / den
 	return r
-
-	var sumOfSquares = 0.0
-	for movie := range data[person1.ID].GetMovies() {
-		if _, ok := data[person2.ID].GetMovies()[movie]; ok {
-			sumOfSquares += math.Pow(float64(data[person1.ID].GetMovies()[movie])-float64(data[person2.ID].GetMovies()[movie]), 2)
-		}
-	}
-
-	return 1 / (1 + sumOfSquares)
 }
 
 func TopMatches(data map[int]*Person, person *Person, n int) []float64 {
