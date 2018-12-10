@@ -1,7 +1,6 @@
-package main
+package recommendations
 
 import (
-	"fmt"
 	"math"
 	"sort"
 )
@@ -57,31 +56,7 @@ func (m PersonMap) AddPerson(person *Person) {
 	m[person.ID] = NewPerson(person.ID, person.name, person.movierating)
 }
 
-func main() {
-
-	person := Person{1, "daniel", map[string]float64{"test": 10, "four": 4, "star wars": 1, "five": 4}}
-	//person := NewPerson(1, "daniel", map[string]float64{"test": 10, "four": 4, "star wars": 1, "five": 4})
-	kalle := Person{2, "kalle", map[string]float64{"test": 6, "four": 2, "five": 6}}
-	pelle := Person{3, "pelle", map[string]float64{"test": 1, "four": 4, "star wars": 10, "toy story": 4.5}}
-
-	kalle.AddMovieRating("star wars", 6.5)
-	kalle.AddMovieRating("six", 3.4)
-
-	personMap := NewPersonMap()
-
-	personMap.AddPerson(&person)
-	personMap.AddPerson(&kalle)
-	personMap.AddPerson(&pelle)
-
-	fmt.Println(simDistance(personMap, &person, &kalle))
-	fmt.Println(SimPearson(personMap, &person, &kalle))
-
-	fmt.Println(getRecommendations(personMap, &kalle))
-
-	//values := topMatches(personMap, person, 2)
-}
-
-func simDistance(data map[int]*Person, person1, person2 *Person) float64 {
+func SimDistance(data map[int]*Person, person1, person2 *Person) float64 {
 	similiatiry := make(map[string]int)
 
 	for movie := range data[person1.ID].GetMovies() {
@@ -159,7 +134,7 @@ func SimPearson(data map[int]*Person, person1, person2 *Person) float64 {
 	return 1 / (1 + sumOfSquares)
 }
 
-func topMatches(data map[int]*Person, person *Person, n int) []float64 {
+func TopMatches(data map[int]*Person, person *Person, n int) []float64 {
 	var scores []float64
 	for _, other := range data {
 		if other.ID == person.ID {
@@ -174,7 +149,7 @@ func topMatches(data map[int]*Person, person *Person, n int) []float64 {
 	return scores[:n]
 }
 
-func getRecommendations(data map[int]*Person, person *Person) PairList {
+func GetRecommendations(data map[int]*Person, person *Person) PairList {
 	totals := make(map[string]float64)
 	simSums := make(map[string]float64)
 	rankings := make(map[string]float64)
@@ -182,7 +157,7 @@ func getRecommendations(data map[int]*Person, person *Person) PairList {
 		if other.ID == person.ID {
 			continue
 		}
-		sim := simDistance(data, person, other)
+		sim := SimDistance(data, person, other)
 		if sim <= 0 {
 			continue
 		}
